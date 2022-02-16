@@ -1,0 +1,37 @@
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML-code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-->browser: spa.js
+
+note over browser:
+browser executes JS code
+JS code makes an XML request
+for some data from the server
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [notes]
+
+note over browser:
+browser renders list of notes
+the notes are taken from data.json
+end note
+
+note over browser:
+user makes a new note 
+from the form field
+end note
+
+browser-->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: {"message": "note created"}
+
+note over browser:
+JavaScript adds the new note to
+the list of notes
+
+the server does not send a new set
+of list nor does it redirect the 
+browser
+end note
