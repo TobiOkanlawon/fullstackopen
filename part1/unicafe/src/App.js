@@ -1,19 +1,28 @@
 import { useState } from 'react';
 
-const Statistics = ({good, neutral, bad, all, average, positive}) => {
-    return(
-        <>
-          <h2>statistics</h2>
-          <div>
-            <p>good { good }</p>
-            <p>neutral { neutral }</p>
-            <p>bad { bad }</p>
-            <p>all {all}</p>
-            <p>average {average}</p>
-            <p>positive {positive}%</p>
-          </div>
-        </>
-    );
+const Statistics = ({good, neutral, bad, all, average, positive, display}) => {
+    if(display){
+        return(
+            <>
+              <h2>statistics</h2>
+              <div>
+                <p>good { good }</p>
+                <p>neutral { neutral }</p>
+                <p>bad { bad }</p>
+                <p>all {all}</p>
+                <p>average {average}</p>
+                <p>positive {positive}%</p>
+              </div>
+            </>
+        );
+    } else {
+        return (
+            <>
+              <h2>statistics</h2>
+              <p>No feedback given!</p>
+            </>
+        );
+    };
 };
 
 
@@ -25,6 +34,7 @@ const App = () => {
     const [all, setAll] = useState(good+neutral+bad);
     const [average, setAverage] = useState(0);
     const [positive, setPositive] = useState(0);
+    const [display, setDisplay] = useState(false);
 
     const recomputeOtherValues = function(){
         let numberOfAll = good + neutral + bad;
@@ -67,6 +77,7 @@ const App = () => {
               all={all}
               average={average}
               positive={positive}
+              display={display}
             />
           </div>
         </div>
