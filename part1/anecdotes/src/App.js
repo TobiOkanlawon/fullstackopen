@@ -12,11 +12,34 @@ const App = () => {
     ];
     
     const [selected, setSelected] = useState(0);
+    const [points, setPoints] = useState({});
 
+    const handleVote = function(){
+        const newPoints = {
+            ...points
+        };
+        // if undefined set as zero
+        newPoints[selected] = (points[selected] || 0) + 1;
+        setPoints(newPoints);
+    };
+
+    const handleNext = function(){
+        if(selected >= anecdotes.length - 1) {
+            setSelected(0);
+        } else {
+            setSelected(selected + 1);
+        }
+    };
     return (
-        <div>
-          {anecdotes[selected]}
-        </div>
+        <>
+          <div>
+            {anecdotes[selected]}
+          </div>
+          <div>
+            <button onClick={handleVote}>vote</button>
+            <button onClick={handleNext}>next anecdote</button>
+          </div>
+        </>
     );
 };
 
