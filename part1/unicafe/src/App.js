@@ -3,41 +3,41 @@ import { useState } from 'react';
 const Statistics = ({feedback, statistics, display}) => {
     if(display){
         return(
-            <>
-              <h2>statistics</h2>
-              <div>
+		<>
+		<h2>statistics</h2>
+		<div>
                 <StatisticsLine text={'good'} value={feedback.good} />
                 <StatisticsLine text={'neutral'} value={feedback.neutral} />
                 <StatisticsLine text={'bad'} value={feedback.bad} />
                 <StatisticsLine text={'all'} value={statistics.all} />
                 <StatisticsLine text={'average'} value={statistics.average}/>
                 <StatisticsLine text={'positive'} value={statistics.positive + '%'} />
-              </div>
-            </>
+		</div>
+		</>
         );
     } else {
         return (
-            <>
-              <h2>statistics</h2>
-              <p>No feedback given!</p>
-            </>
+		<>
+		<h2>statistics</h2>
+		<p>No feedback given!</p>
+		</>
         );
     };
 };
 
 const Button = ({clickHandler, text}) => {
     return (
-        <button onClick={clickHandler}>
-          {text}
+            <button onClick={clickHandler}>
+            {text}
         </button>
     );
 };
 
-    const StatisticsLine = ({text, value}) => {
+const StatisticsLine = ({text, value}) => {
     return (
-        <>
-          <p>{text} {value}</p>
-        </>
+            <>
+            <p>{text} {value}</p>
+            </>
     );
 };
 
@@ -89,21 +89,21 @@ const App = () => {
     };
 
     return (
-        <>
-          <div>
+            <>
+            <div>
             <h2>Give Feedback</h2>
             <div>
-              <Button text={'good'} clickHandler={giveGoodFeedback} />
-              <Button text={'neutral'} clickHandler={giveNeutralFeedback} />
-              <Button text={'bad'} clickHandler={giveBadFeedback} />
+            <Button text={'good'} clickHandler={giveGoodFeedback} />
+            <Button text={'neutral'} clickHandler={giveNeutralFeedback} />
+            <Button text={'bad'} clickHandler={giveBadFeedback} />
             </div>
             <Statistics
-              feedback={feedback}
-	      statistics={statistics}
-              display={display}
+        feedback={feedback}
+	statistics={statistics}
+        display={display}
             />
-          </div>
-        </>
+            </div>
+            </>
     );
 };
 
