@@ -30,17 +30,48 @@ const App = () => {
             setSelected(selected + 1);
         }
     };
-    return (
-        <>
-          <div>
-            {anecdotes[selected]}
-          </div>
-          <div>
-            <button onClick={handleVote}>vote</button>
-            <button onClick={handleNext}>next anecdote</button>
-          </div>
-        </>
-    );
+    if(!points[selected]){
+        return (
+            <>
+              <div>
+                {anecdotes[selected]}
+                <p>has no votes</p>
+              </div>
+              <div>
+                <button onClick={handleVote}>vote</button>
+                <button onClick={handleNext}>next anecdote</button>
+              </div>
+            </>
+        );
+        
+    } else if (points[selected] === 1) {
+        return (
+            <>
+              <div>
+                {anecdotes[selected]}
+                <p>has 1 vote</p>
+              </div>
+              <div>
+                <button onClick={handleVote}>vote</button>
+                <button onClick={handleNext}>next anecdote</button>
+              </div>
+            </>
+        );
+        
+    } else {
+        return (
+            <>
+              <div>
+                {anecdotes[selected]}
+                <p>has {points[selected]} votes</p>
+              </div>
+              <div>
+                <button onClick={handleVote}>vote</button>
+                <button onClick={handleNext}>next anecdote</button>
+              </div>
+            </>
+        );
+    };
 };
 
 export default App;
