@@ -1,5 +1,67 @@
 import { useState } from 'react';
 
+const MostVotes = ({anecdote, numberOfVotes}) => {
+    if(numberOfVotes === 0){
+        return (
+            <>
+              <p>There are currently no votes on any anecdotes</p>
+            </>
+        );
+    } else {
+        return (
+            <div>
+              <p>{ anecdote }</p>
+              <p>has { numberOfVotes } votes</p>
+            </div>
+        );
+    };
+};
+
+const AnecdoteOfTheDay = ({anecdote, numberOfVotes, handleVote, handleNext}) => {
+    if(numberOfVotes === 0){
+        return (
+            <>
+              <div>
+                {anecdote}
+                <p>has no votes</p>
+              </div>
+              <div>
+                <button onClick={handleVote}>vote</button>
+                <button onClick={handleNext}>next anecdote</button>
+              </div>
+            </>
+        );
+        
+    } else if (numberOfVotes === 1) {
+        return (
+            <>
+              <div>
+                {anecdote}
+                <p>has 1 vote</p>
+              </div>
+              <div>
+                <button onClick={handleVote}>vote</button>
+                <button onClick={handleNext}>next anecdote</button>
+              </div>
+            </>
+        );
+        
+    } else {
+        return (
+            <>
+              <div>
+                {anecdote}
+                <p>has {numberOfVotes} votes</p>
+              </div>
+              <div>
+                <button onClick={handleVote}>vote</button>
+                <button onClick={handleNext}>next anecdote</button>
+              </div>
+            </>
+        );
+    };
+};
+
 const App = () => {
     const anecdotes = [
         'If it hurts, do it more often',
@@ -30,48 +92,39 @@ const App = () => {
             setSelected(selected + 1);
         }
     };
-    if(!points[selected]){
-        return (
-            <>
-              <div>
-                {anecdotes[selected]}
-                <p>has no votes</p>
-              </div>
-              <div>
-                <button onClick={handleVote}>vote</button>
-                <button onClick={handleNext}>next anecdote</button>
-              </div>
-            </>
-        );
-        
-    } else if (points[selected] === 1) {
-        return (
-            <>
-              <div>
-                {anecdotes[selected]}
-                <p>has 1 vote</p>
-              </div>
-              <div>
-                <button onClick={handleVote}>vote</button>
-                <button onClick={handleNext}>next anecdote</button>
-              </div>
-            </>
-        );
-        
-    } else {
-        return (
-            <>
-              <div>
-                {anecdotes[selected]}
-                <p>has {points[selected]} votes</p>
-              </div>
-              <div>
-                <button onClick={handleVote}>vote</button>
-                <button onClick={handleNext}>next anecdote</button>
-              </div>
-            </>
-        );
-    };
+
+    let max = {id: null, points: 0 };
+
+    // computes the max;
+    (function(){
+        const keys = Object.keys(points);
+        for(let i = 0; i < keys.length; i++){
+            if(points[keys[i]] >= max.points){
+                max = {id:i,  points: points[keys[i]]};
+            }
+        };
+    })();
+    
+    return (
+        <main>
+          <div>
+            <h2>Anecdote of the Day</h2>
+            <AnecdoteOfTheDay
+              handleVote={handleVote}
+              handleNext={handleNext}
+              anecdote={anecdotes[selected]}
+              numberOfVotes={points[selected] || 0}
+            />
+          </div>
+          <div>
+            <h2>Anecdote with the Most Votes</h2>
+            <MostVotes
+              anecdote={anecdotes[max.id]}
+              numberOfVotes={points[max.id] || 0}
+            />
+          </div>
+        </main>
+    );
 };
 
 export default App;
