@@ -7,18 +7,15 @@ const Part = ({ part }) =>
         {part.name} {part.exercises}
       </p>;
 
-const Content = ({ parts }) =>
-      <>
-        <Part
-          part={parts[0]} 
-        />
-        <Part
-          part={parts[1]} 
-        />
-        <Part
-          part={parts[2]} 
-        />      
-      </>;
+const Content = ({ parts }) =>{
+    return (
+        <>
+          {
+              parts.map((element) => <Part key={element.id} part={element}/>)
+          }
+        </>
+    );
+};
 
 const Course = ({course})=> {
     return (
