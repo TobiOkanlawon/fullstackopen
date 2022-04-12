@@ -17,11 +17,18 @@ const Content = ({ parts }) =>{
     );
 };
 
-const Course = ({course})=> {
+const Sum = ({sum}) => {
+    return (
+        <p>total of {sum} exercises</p>
+    );
+};
+
+const Course = ({course, total})=> {
     return (
         <>
           <Header course={course.name}/>
           <Content parts={course.parts}/>
+          <Total sum={total}/>
         </>
     );
 };
@@ -49,8 +56,15 @@ const App = () => {
         ]
     };
 
+    const total = course.parts.reduce(
+        function(previousValue, currentValue){
+            return previousValue + currentValue.exercises;
+        },
+        0);
+
     return <Course
              course={course}
+             total={total}
            />;
 };
 export default App;
