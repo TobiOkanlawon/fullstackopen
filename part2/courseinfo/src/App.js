@@ -42,7 +42,6 @@ const App = () => {
     ];
 
     const total = function({parts}){
-        console.log(parts);
         return parts.reduce(
             function(previousValue, currentValue){
                 return previousValue + currentValue.exercises;
