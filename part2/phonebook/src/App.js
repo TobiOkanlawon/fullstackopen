@@ -5,9 +5,14 @@ const App = () => {
         { name: 'Arto Hellas' }
     ]);
     const [newName, setNewName] = useState('');
+    const [newNumber, setNewNumber] = useState('');
 
-    const handleInputChange = function(e){
+    const handleNewNameChange = function(e){
         setNewName(e.target.value);
+    };
+
+    const handleNewNumberChange = function(e){
+        setNewNumber(e.target.value);
     };
 
     const _shallowEqual = function(first, second){
@@ -35,11 +40,12 @@ const App = () => {
     const handleFormSubmit = function(e){
         e.preventDefault();
         
-        const newPerson = { name: newName };
+        const newPerson = { name: newName, number: newNumber };
 
         if(!_isAdded(newPerson)){
             setPersons(persons.concat(newPerson));
             setNewName('');
+            setNewNumber('');
         } else {
             alert(`${newName} is already added to phonebook`);
         }
@@ -50,7 +56,9 @@ const App = () => {
           <h2>Phonebook</h2>
           <form>
             <div>
-              Name: <input value={newName} onChange={handleInputChange} />
+              Name: <input value={newName} onChange={handleNewNameChange} />
+              <br/>
+              Input: <input value={newNumber} onChange={handleNewNumberChange}/>
             </div>
             <div>
               <button type="submit" onClick={handleFormSubmit} >add</button>
@@ -58,7 +66,7 @@ const App = () => {
           </form>
           <h2>Numbers</h2>
           <ul>
-            {persons.map(person => <li key={person.name}>{person.name}</li> )}
+            {persons.map(person => <li key={person.name}>{person.name} {person.number}</li> )}
           </ul>
         </div>
     );
