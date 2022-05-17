@@ -9,13 +9,40 @@ const App = () => {
     const handleInputChange = function(e){
         setNewName(e.target.value);
     };
+
+    const _shallowEqual = function(first, second){
+        const firstKeys = Object.getOwnPropertyNames(first);
+        const secondKeys = Object.getOwnPropertyNames(second);
+
+        // check for length equality for early return
+        if(firstKeys.length !== secondKeys.length) return false;
+
+        // check for key equality and value equality
+        return firstKeys.every(key => first[key] === second[key]);
+    };
+
+    const _isAdded = function(person){
+        // shallow equality will work well enough for our needs
+        // this is because the topology of the data is flat
+
+        let containsPerson = false;
+        for(let i of persons){
+            if(_shallowEqual(person, i)) containsPerson = true;
+        }
+        return containsPerson;     
+    };
+    
     const handleFormSubmit = function(e){
         e.preventDefault();
         
         const newPerson = { name: newName };
-        
-        setPersons(persons.concat(newPerson));
-        setNewName('');
+
+        if(!_isAdded(newPerson)){
+            setPersons(persons.concat(newPerson));
+            setNewName('');
+        } else {
+            alert(`${newName} is already added to phonebook`);
+        }
     };
 
     return (
