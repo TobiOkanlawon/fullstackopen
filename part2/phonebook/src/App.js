@@ -2,10 +2,15 @@ import { useState } from 'react';
 
 const App = () => {
     const [persons, setPersons] = useState([
-        { name: 'Arto Hellas' }
+	{ name: 'Arto Hellas', number: '040-123456', id: 1 },
+	{ name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+	{ name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+	{ name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
     ]);
+    const [displayArray, setDisplayArray] = useState(persons);
     const [newName, setNewName] = useState('');
     const [newNumber, setNewNumber] = useState('');
+    const [filterValue, setFilterValue] = useState('');
 
     const handleNewNameChange = function(e){
         setNewName(e.target.value);
@@ -51,9 +56,24 @@ const App = () => {
         }
     };
 
+    const _filterPersons = function(string, personArray){
+        return personArray.filter(({name}) => name.toLowerCase().includes(string.toLowerCase()));
+    };
+
+    const handleFilterChange = function(e){
+        if(!!e.target.value){
+            setDisplayArray(_filterPersons(e.target.value, persons));
+        } else {
+            setDisplayArray(persons);
+        }
+        setFilterValue(e.target.value);
+    };
+
     return (
         <div>
           <h2>Phonebook</h2>
+          <p>filter shown with <input value={filterValue} onChange={handleFilterChange}/> </p>
+          <h2>Add a new person</h2>
           <form>
             <div>
               Name: <input value={newName} onChange={handleNewNameChange} />
@@ -61,12 +81,12 @@ const App = () => {
               Input: <input value={newNumber} onChange={handleNewNumberChange}/>
             </div>
             <div>
-              <button type="submit" onClick={handleFormSubmit} >add</button>
+              <button type="submit" onClick={handleFormSubmit}>add</button>
             </div>
           </form>
           <h2>Numbers</h2>
           <ul>
-            {persons.map(person => <li key={person.name}>{person.name} {person.number}</li> )}
+            {displayArray.map(person => <li key={person.name}>{person.name} {person.number}</li> )}
           </ul>
         </div>
     );
