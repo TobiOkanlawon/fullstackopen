@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Filter = ({filterValue, filterChangeHandler}) => {
     return (
@@ -33,17 +34,31 @@ const Persons = ({person}) => {
     );
 };
 
+
+// DUMMY DATA
+/*
+  { name: 'Arto Hellas', number: '040-123456', id: 1 },
+  { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+  { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+  { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+*/
+
 const App = () => {
     const [persons, setPersons] = useState([
-	{ name: 'Arto Hellas', number: '040-123456', id: 1 },
-	{ name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-	{ name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-	{ name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
     ]);
     const [displayArray, setDisplayArray] = useState(persons);
     const [newName, setNewName] = useState('');
     const [newNumber, setNewNumber] = useState('');
     const [filterValue, setFilterValue] = useState('');
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/persons')
+            .then((res) => {
+                setPersons(res.data);
+                // quick hack to set the displayArray to the personArray
+                setDisplayArray(res.data);
+            });
+    }, []);
 
     const handleNewNameChange = function(e){
         setNewName(e.target.value);
