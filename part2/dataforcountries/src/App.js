@@ -14,11 +14,20 @@ const Search = ({country, handleCountryInputChange, responseToInput}) => {
     );
 };
 
-const Countries = ({countries}) => {
+const Countries = ({countries, showSingleCountry}) => {
+
+    const handleShowClick = (name) => {
+        showSingleCountry(name.common);
+    };
+    
     return (
         <div>
           <ul>
-            {countries.map( ({name}) => <li key={name.common}>{name.common}</li> )}
+            {
+                countries.map(
+                    ({name}) =><li key={name.common}>{name.common}<button onClick={() => handleShowClick(name)}>show</button></li>
+                )
+            }
           </ul>
         </div>
     );
@@ -67,6 +76,7 @@ const App = () => {
     };
 
     const handleSearch = (query) => {
+        console.log(query);
         if(!!allCountries){
             return allCountries.filter(
                 ({name}) => name.common
@@ -82,7 +92,10 @@ const App = () => {
     const renderResult = () => {
         if(searchResult.length < 10 && searchResult.length > 1 && country.length > 0){
             return (
-                <Countries countries={searchResult} />
+                <Countries
+                  countries={searchResult}
+                  showSingleCountry={showSingleCountry}
+                />
             );
         }
         else if(searchResult.length === 1) {
@@ -94,6 +107,11 @@ const App = () => {
             <p>No results</p>
         );
     };
+
+    const showSingleCountry = (name) => {
+        setSearchResult(handleSearch(name));
+    };
+    
     useEffect( () => {
         axios.get('https:restcountries.com/v3.1/all')
             .then((res)=>{
